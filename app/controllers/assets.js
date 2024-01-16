@@ -3,7 +3,7 @@ const url = require("url");
 const { StatusCodes } = require("http-status-codes");
 const fetch = require("node-fetch");
 
-const assetsSchema = require("../models/assetsSchema");
+const assetsSchema = require("../models/AssetsSchema");
 const { add } = require("nodemon/lib/rules");
 
 exports.listAssets = async (req, res) => {
