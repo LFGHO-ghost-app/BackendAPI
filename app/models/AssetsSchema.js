@@ -18,5 +18,24 @@ module.exports.listAssets = async (filter) => {
         console.error(err);
     }
 };
+module.exports.delete = async (recordId) => {
+    try {
+        return await assetsSchema.findByIdAndDelete(recordId);
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+module.exports.put = async (recordId, dataToUpdate) => {
+    try {
+        return await assetsSchema.findOneAndUpdate(
+            { _id: recordId },
+            dataToUpdate,
+            { new: true }
+        );
+    } catch (err) {
+        console.error(err);
+    }
+};
 
 module.exports.assetsSchema = assetsSchema;
