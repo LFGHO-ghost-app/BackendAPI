@@ -36,8 +36,7 @@ exports.processPayment = async (req, res) => {
         const receipt = await web3.eth.sendSignedTransaction(
             signedTx.rawTransaction
         );
-        console.log("Transaction receipt: ", receipt);
-        res.json({ success: true, result: receipt });
+        res.json({ success: true, result: receipt.transactionHash });
     } catch (error) {
         console.log("this is the error", error);
         res.json({ success: false, error: error });

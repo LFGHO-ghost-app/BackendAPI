@@ -93,6 +93,7 @@ describe("Test app.js file", () => {
             querystring.stringify(payload)
         );
         assert.strictEqual(response.data.success, true);
+        console.log("Transaaction hash", response.data.result)
     });
     after(async () => {
         await mongoose.disconnect();
