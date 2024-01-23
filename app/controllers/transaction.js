@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { ethers } = require("ethers");
 const path = require("path");
 const url = require("url");
 const { StatusCodes } = require("http-status-codes");
@@ -22,13 +23,19 @@ exports.processPayment = async (req, res) => {
             `0x${process.env.PRIVATE_KEY}`
         ); // Replace with your private key
         const nonce = await web3.eth.getTransactionCount(account.address);
+        const provider = new ethers.providers.JsonRpcProvider(
+            process.env.SEPOLIA_RPC_URL
+        );
+        const gasPrice = await provider.getGasPrice();
+        const gasPriceHex = gasPrice.toHexString();
         const tx = {
             to: address,
             data: functionAbi,
             nonce: nonce,
-            gas: 2000000, // Set gas limit
-            gasPrice: web3.utils.toWei("10", "gwei"), // Set gas price
+            gasPrice: gasPriceHex,
         };
+        const gasEstimate = await web3.eth.estimateGas(tx);
+        tx.gas = Number(gasEstimate);
         const signedTx = await web3.eth.accounts.signTransaction(
             tx,
             account.privateKey
